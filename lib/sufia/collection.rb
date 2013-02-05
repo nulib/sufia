@@ -15,8 +15,7 @@ module Sufia
       has_metadata :name => "descMetadata", :type => CollectionRdfDatastream
       has_metadata :name => "properties", :type => PropertiesDatastream
 
-      belongs_to :batch, :property => :is_part_of
-      has_and_belongs_to_many :generic_files, :property => :hasCollectionMember, :inverse_of => :isMemberOfCollection, 
+      has_and_belongs_to_many :generic_files, :property => :has_collection_member
 
       delegate_to :properties, [:depositor], :unique => true
       delegate_to :descMetadata, [:date_uploaded, :date_modified, :related_url,

@@ -68,6 +68,7 @@ module Sufia
   end
 
   autoload :GenericFile
+  autoload :Collection
   autoload :Controller
   autoload :Utils
   autoload :User

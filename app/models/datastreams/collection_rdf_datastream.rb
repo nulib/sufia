@@ -29,6 +29,5 @@ class CollectionRdfDatastream < ActiveFedora::NtriplesRDFDatastream
       index.type :date
       index.as :searchable, :displayable, :sortable
     end
-    map.related_url(:to => "seeAlso", :in => RDF::RDFS)
   end
 end
