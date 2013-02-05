@@ -40,17 +40,45 @@ describe Collection do
   it "should have a depositor" do
   	@collection.depositor.should == @user.user_key
   end
-  it "should have many files" do
+  it "should be empty by default" do 
   	@collection.generic_files.should be_empty
+  end
+  it "should have many files" do
   	@collection.generic_files = [@gf1, @gf2]
   	@collection.save
   	Collection.find(@collection.pid).generic_files.should == [@gf1, @gf2]
   end
-  it "should allow new files to be added"
-  it "should allow files to belong to multiple collections"
-  it "should include the noid in solr"
-  it "should set the date uploaded on create"
-  it "should update the date modified on update"
+  it "should allow new files to be added" do
+  	@collection.generic_files = [@gf1]
+  	@collection.save
+    @collection = Collection.find(@collection.pid)
+    @collection.generic_files << @gf2
+  	@collection.save
+  	Collection.find(@collection.pid).generic_files.should == [@gf1, @gf2]
+  end
+
+  it "should include the noid in solr" do
+    @collection.save
+    @collection.to_solr['noid_s'].should == @collection.noid
+  end
+
+  it "should set the date uploaded on create" do
+    @collection.save
+    @collection.date_uploaded.should be_kind_of(Date)
+  end
+
+  pending "should update the date modified on update" do
+
+    upload_time = DateTime.now
+    modified_time = DateTime.now
+    DateTime.stub(:now).and_return(upload_time, modified_time)
+    @collection.save
+    @collection.date_modified.should == upload_time.iso8601
+    @collection.generic_files = [@gf1] 
+    @collection.save
+    @collection.date_modified.should == modified_time.iso8601
+  end
+
   it "should have the expected display terms"
   it "should have the expected edit terms"
   it "should have a title"

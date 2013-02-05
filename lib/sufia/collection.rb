@@ -20,6 +20,9 @@ module Sufia
       delegate_to :properties, [:depositor], :unique => true
       delegate_to :descMetadata, [:date_uploaded, :date_modified, :related_url,
                                   :title, :description], :unique => true
+
+      before_create :set_date_uploaded
+      before_save :set_date_modified
     end
 
     def to_solr(solr_doc={}, opts={})
@@ -35,5 +38,16 @@ module Sufia
     def terms_for_display
       self.descMetadata.class.config.keys
     end
+
+    private
+
+    def set_date_uploaded
+      self.date_uploaded = DateTime.now
+    end
+
+    def set_date_modified
+      self.date_modified = DateTime.now
+    end
+
   end
 end
