@@ -14,7 +14,6 @@
 
 class CollectionRdfDatastream < ActiveFedora::NtriplesRDFDatastream
   map_predicates do |map|
-    map.member(:to => "hasMember", :in => RDF::DC)
     map.title(:in => RDF::DC) do |index|
       index.as :searchable, :displayable
     end

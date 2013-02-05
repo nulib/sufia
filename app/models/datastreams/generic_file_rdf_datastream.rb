@@ -15,9 +15,6 @@
 class GenericFileRdfDatastream < ActiveFedora::NtriplesRDFDatastream
   map_predicates do |map|
     map.part_of(:to => "isPartOf", :in => RDF::DC)
-    map.member_of(:to => "isMemberOf", :in => RDF::DC) do |index|
-      index.as :searchable, :facetable, :displayable
-    end
     map.contributor(:in => RDF::DC) do |index|
       index.as :searchable, :displayable
     end

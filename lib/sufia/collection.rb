@@ -2,7 +2,7 @@ require 'datastreams/collection_rdf_datastream'
 require 'datastreams/properties_datastream'
 
 module Sufia
-  module GenericFile
+  module Collection
     extend ActiveSupport::Concern
     extend ActiveSupport::Autoload
     autoload :Permissions
@@ -16,11 +16,11 @@ module Sufia
       has_metadata :name => "properties", :type => PropertiesDatastream
 
       belongs_to :batch, :property => :is_part_of
-      belongs_to :collection, :property => :is_member_of
+      has_and_belongs_to_many :generic_files, :property => :hasCollectionMember, :inverse_of => :isMemberOfCollection, 
 
       delegate_to :properties, [:depositor], :unique => true
-      delegate_to :descMetadata, [:date_uploaded, :date_modified], :unique => true
-      delegate_to :descMetadata, [:related_url, :title, :description], :unique => true
+      delegate_to :descMetadata, [:date_uploaded, :date_modified, :related_url,
+                                  :title, :description], :unique => true
     end
 
     def to_solr(solr_doc={}, opts={})

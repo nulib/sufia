@@ -28,15 +28,20 @@ module Sufia
       has_file_datastream :name => "thumbnail", :type => FileContentDatastream
 
       belongs_to :batch, :property => :is_part_of
-      belongs_to :collection, :property => :is_member_of
 
       delegate_to :properties, [:relative_path, :depositor], :unique => true
       delegate_to :descMetadata, [:date_uploaded, :date_modified], :unique => true
       delegate_to :descMetadata, [:related_url, :based_near, :part_of, :creator,
                                   :contributor, :title, :tag, :description, :rights,
-                                  :publisher, :date_created, :subject, :member_of,
+                                  :publisher, :date_created, :subject,
                                   :resource_type, :identifier, :language]
       around_save :characterize_if_changed, :retry_warming
+    end
+
+    def collections
+      # TODO: write a method that queries RELS-EXT and returns a list of 
+      #       collection objects that assert a hasCollectionMember relationship
+      #       with this GF instance
     end
 
     def delete
