@@ -139,6 +139,12 @@ describe 'Routes' do
     end
   end
 
+  describe "Start Upload" do
+    it 'should route to new' do
+      { get: start_upload_path }.should route_to(controller: 'generic_files', action: 'new')
+    end
+  end
+
   describe "Directory" do
     it "should route to user" do
       { get: '/directory/user/xxx666' }.should route_to(controller: 'directory', action: 'user', uid: 'xxx666')

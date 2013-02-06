@@ -23,6 +23,9 @@ Sufia::Engine.routes.draw do
     end
   end
 
+  # named path to abstract the upload path for new workflow insertion before initial upload
+  match 'files/new' => 'generic_file#new', :as => :start_upload
+
   # Downloads controller route
   resources :downloads, :only => "show"
 
