@@ -19,7 +19,7 @@ describe Collection do
     @user = FactoryGirl.find_or_create(:user)
   end
   after(:all) do
-  	@user.destroy
+    @user.destroy
   end
   before(:each) do
     @collection = Collection.new
@@ -33,56 +33,50 @@ describe Collection do
     @gf2.save
   end
   after(:each) do
-  	@collection.destroy
-  	@gf1.destroy
-  	@gf2.destroy
+    @collection.destroy
+    @gf1.destroy
+    @gf2.destroy
   end
   it "should have a depositor" do
-  	@collection.depositor.should == @user.user_key
+    @collection.depositor.should == @user.user_key
   end
-  it "should be empty by default" do 
-  	@collection.generic_files.should be_empty
+  it "should be empty by default" do
+    @collection.generic_files.should be_empty
   end
   it "should have many files" do
-  	@collection.generic_files = [@gf1, @gf2]
-  	@collection.save
-  	Collection.find(@collection.pid).generic_files.should == [@gf1, @gf2]
+    @collection.generic_files = [@gf1, @gf2]
+    @collection.save
+    Collection.find(@collection.pid).generic_files.should == [@gf1, @gf2]
   end
   it "should allow new files to be added" do
-  	@collection.generic_files = [@gf1]
-  	@collection.save
+    @collection.generic_files = [@gf1]
+    @collection.save
     @collection = Collection.find(@collection.pid)
     @collection.generic_files << @gf2
-  	@collection.save
-  	Collection.find(@collection.pid).generic_files.should == [@gf1, @gf2]
+    @collection.save
+    Collection.find(@collection.pid).generic_files.should == [@gf1, @gf2]
   end
-
   it "should include the noid in solr" do
     @collection.save
     @collection.to_solr['noid_s'].should == @collection.noid
   end
-
   it "should set the date uploaded on create" do
     @collection.save
     @collection.date_uploaded.should be_kind_of(Date)
   end
-
-  pending "should update the date modified on update" do
-
-    upload_time = DateTime.now
-    modified_time = DateTime.now
-    DateTime.stub(:now).and_return(upload_time, modified_time)
+  it "should update the date modified on update" do
+    uploaded_date = Date.today
+    modified_date = Date.tomorrow
+    Date.stub(:today).and_return(uploaded_date, modified_date)
     @collection.save
-    @collection.date_modified.should == upload_time.iso8601
-    @collection.generic_files = [@gf1] 
+    @collection.date_modified.should == uploaded_date
+    @collection.generic_files = [@gf1]
     @collection.save
-    @collection.date_modified.should == modified_time.iso8601
+    @collection.date_modified.should == modified_date
   end
-
-  it "should have the expected display terms"
-  it "should have the expected edit terms"
   it "should have a title"
   it "should have a description"
-  it "should be able to have zero files"
+  it "should have the expected display terms"
+  it "should have the expected edit terms"
   it "should not delete member files when deleted"
 end

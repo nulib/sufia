@@ -7,9 +7,8 @@ module Sufia
     extend ActiveSupport::Autoload
     autoload :Permissions
     include Sufia::ModelMethods
-    include Sufia::Noid  
+    include Sufia::Noid
     include Sufia::GenericFile::Permissions
-                                                
 
     included do
       has_metadata :name => "descMetadata", :type => CollectionRdfDatastream
@@ -42,11 +41,11 @@ module Sufia
     private
 
     def set_date_uploaded
-      self.date_uploaded = DateTime.now
+      self.date_uploaded = Date.today
     end
 
     def set_date_modified
-      self.date_modified = DateTime.now
+      self.date_modified = Date.today
     end
 
   end
