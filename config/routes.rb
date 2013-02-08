@@ -54,7 +54,8 @@ Sufia::Engine.routes.draw do
       get 'facet/:id', :action => :facet, :as => :dashboard_facet
     end
   end
-    
+
+  resources :collections, :except => :index
 
   # advanced routes for advanced search
   match 'search' => 'advanced#index', :as => :advanced
