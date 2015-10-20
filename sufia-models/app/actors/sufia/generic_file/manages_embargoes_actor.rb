@@ -38,6 +38,7 @@ module Sufia::GenericFile
         generic_file.deactivate_embargo!
         generic_file.embargo.save if generic_file.embargo
         generic_file.visibility = attributes[:visibility]
+        generic_file.save
         true
       elsif !attributes[:embargo_release_date]
         generic_file.errors.add(:visibility, 'When setting visibility to "embargo" you must also specify embargo release date.')
@@ -66,6 +67,7 @@ module Sufia::GenericFile
         generic_file.deactivate_lease!
         generic_file.lease.save if generic_file.lease
         generic_file.visibility = attributes[:visibility]
+        generic_file.save
         true
       elsif !attributes[:lease_expiration_date]
         generic_file.errors.add(:visibility, 'When setting visibility to "lease" you must also specify lease expiration date.')
@@ -77,6 +79,7 @@ module Sufia::GenericFile
           generic_file.lease.save  # See https://github.com/projecthydra/hydra-head/issues/226
         end
         attributes.delete(:visibility)
+        generic_file.save
         true
       end
     end
